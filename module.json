@@ -43,8 +43,7 @@
             "label": "Manual de Morton - Accesorios",
             "path": "packs/items.db",
             "type": "Item",
-            "private": false,
-            "system": "dnd5e"
+            "private": false
         },
         {
             "name": "mmmmj",
@@ -70,7 +69,5 @@
     "compatibility": {
         "minimum": "10",
         "verified": "10"
-    },
-    
-    "minimumCoreVersion": "10"
+    }
 }
