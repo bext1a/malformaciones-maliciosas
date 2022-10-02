@@ -2,7 +2,7 @@ Hooks.on("midi-qol.RollComplete", async (workflow) => {
   let timeout = 0;
   if (!workflow.item?.hasDamage || workflow.hitTargets.size === 0) return;
   while(!workflow.damageList && timeout < 100) {
-    await MaxwelMaliciousMaladies.sleep(500);
+    await ManualMorton.sleep(500);
     timeout++;
   }
   if(!workflow.damageList) return;
@@ -25,7 +25,7 @@ Hooks.on("midi-qol.RollComplete", async (workflow) => {
     const isDead = target.newHP <= 0;
     if (isHalfOrMore && applyOnDamage) {
       MaxwelMaliciousMaladiesSocket.executeForEveryone("requestRoll",
-        "Damage exeded half of maximum hp",
+        "El Daño ha excedido la mitad de la vida máxima",
         damageType,
         actor.id
       );
@@ -33,7 +33,7 @@ Hooks.on("midi-qol.RollComplete", async (workflow) => {
     }
     if (isCritSave && applyOnCritSave) {
       MaxwelMaliciousMaladiesSocket.executeForEveryone("requestRoll",
-        "Fumbled saving throw",
+        "Pífia en la Tirada de Salvación",
         damageType,
         actor.id
       );
@@ -66,7 +66,7 @@ Hooks.on("updateActor", (actor, updates, diff)=>{
   const isDead = actor.system.attributes.hp.value <= 0;
   if (isHalfOrMore && applyOnDamage) {
     MaxwelMaliciousMaladiesSocket.executeForEveryone("requestRoll",
-      "Damage exeded half of maximum hp",
+      "El Daño ha excedido la mitad de la vida máxima",
       undefined,
       actor.id
     );

@@ -1,74 +1,71 @@
 {
-  "id": "mmm",
-  "title": "Manual de Morton sobre Malformaciones Maliciosas",
-  "description": "208 lesiones permanentes, con diferentes gravedades, duraciones y consecuencias, según los 13 tipos de daños existentes.",
-  "version": "1.0.5",
-  "authors": [
-    {
-      "name": "bextia",
-      "email": "jatomillo@gmail.com",
-      "url": "https://www.bextia.io",
-      "flags": {}
-    }
-  ],
-  "languages": [
-    {
-      "lang": "es",
-      "name": "Spanish",
-      "path": "languages/es.json",
-      "flags": {}
-    }
-  ],
-  "scripts": [
-    "scripts/main.js",
-    "scripts/config.js",
-    "scripts/module.js"
-  ],
-  "styles": [
-    "styles/module.css"
-  ],
-  "packs": [
-    {
-      "name": "mmmm",
-      "label": "Manual de Morton sobre Malformaciones Maliciosas - Tablas",
-      "path": "packs/tables.db",
-      "type": "RollTable",
-      "private": false,
-      "flags": {}
+    "id": "mmm",
+    "title": "Manual de Morton sobre Malformaciones Maliciosas",
+    "description": "Lesiones permanentes, con diferente importancia, duraciones y consecuencias, según los 13 tipos de daños existentes. En Español!",
+    "version": "1.0.3",
+    "authors": [
+        {
+            "name": "bextia",
+            "email": "jatomillo@gmail.com",
+            "url": "https://github.com/bext1a"
+        }
+    ],
+    "languages": [
+        {
+            "lang": "es",
+            "name": "Spanish",
+            "path": "languages/es.json"
+        }
+    ],
+    "scripts": [
+        "scripts/main.js",
+        "scripts/config.js",
+        "scripts/module.js"
+    ],
+    "styles": [
+        "styles/module.css"
+    ],
+    "packs": [
+        {
+            "name": "mmmm",
+            "label": "Manual de Morton - Tablas",
+            "path": "packs/tables.db",
+            "type": "RollTable",
+            "private": false
+        },
+        {
+            "name": "mmmmi",
+            "label": "Manual de Morton - Accesorios",
+            "path": "packs/items.db",
+            "type": "Item",
+            "private": false,
+            "system": "dnd5e"
+        },
+        {
+            "name": "mmmmj",
+            "label": "Manual de Morton sobre Malformaciones Maliciosas",
+            "path": "packs/journals.db",
+            "type": "JournalEntry",
+            "private": false
+        }
+    ],
+    "url": "https://github.com/bext1a/mmorton",
+    "manifest": "https://github.com/bext1a/mmorton/releases/latest/download/module.json",
+    "download": "https://github.com/bext1a/mmorton/releases/download/0.1.0/module.zip",
+    "socket": true,
+    "relationships": {
+        "requires": [
+            {
+                "id": "socketlib",
+                "type": "module",
+                "compatibility": {}
+            }
+        ]
     },
-    {
-      "name": "mmmmi",
-      "label": "Manual de Morton sobre Malformaciones Maliciosas - Accesorios",
-      "path": "packs/items.db",
-      "type": "Item",
-      "private": false,
-      "system": "dnd5e",
-      "flags": {}
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10"
     },
-    {
-      "name": "mmmmj",
-      "label": "Manual de Morton sobre Malformaciones Maliciosas",
-      "path": "packs/journals.db",
-      "type": "JournalEntry",
-      "private": false,
-      "flags": {}
-    }
-  ],
-  "url": "https://github.com/bext1a/malformaciones-maliciosas",
-  "manifest": "https://github.com/bext1a/malformaciones-maliciosas/releases/latest/download/module.json",
-  "download": "https://github.com/bext1a/malformaciones-maliciosas/releases/download/1.0.5/module.zip",
-  "socket": true,
-  "relationships": {
-    "requires": [
-      {
-        "id": "socketlib",
-        "type": "module",
-        "compatibility": {}
-      }
-    ]
-  },
-  "compatibility": {
-    "minimum": "10",
-    "verified": "10"
-  }
+    "name": "mmm",
+    "minimumCoreVersion": "10"
 }

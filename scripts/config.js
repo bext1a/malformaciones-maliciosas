@@ -1,7 +1,7 @@
 Hooks.once('init', function() {
   game.settings.register("mmm", "applyOnCritSave", {
-    name: "On fumbled Saving Throw",
-    hint: "Prompt for a lingering injury roll on a fumbled saving throw.",
+    name: "Por pífia en Tirada de Salvación",
+    hint: "Solicitar una tirada de lesión permanente por pífia en tirada de salvación.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -9,8 +9,8 @@ Hooks.once('init', function() {
   });
 
   game.settings.register("mmm", "applyOnCrit", {
-    name: "On Critical",
-    hint: "Prompt for a lingering injury roll on a critical hit.",
+    name: "Por crítico",
+    hint: "Solicitar una tirada de lesión permanente por daño crítico.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -19,7 +19,7 @@ Hooks.once('init', function() {
 
   game.settings.register("mmm", "applyOnDamage", {
     name: "On Damage",
-    hint: "Prompt for a lingering injury roll when the damage recived is more than half of the max hp.",
+    hint: "Solicitar una tirada de lesión permanente si recibe más daño que la mitad de su vida máxima.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -27,8 +27,8 @@ Hooks.once('init', function() {
   });
 
   game.settings.register("mmm", "applyOnDown", {
-    name: "On Unconscious",
-    hint: "Prompt for a lingering injury roll when damage brings an actor to 0 hp.",
+    name: "Por inconsciencia",
+    hint: "Solicitar una tirada de lesión permanente si el daño del personaje cae a 0 PG.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -36,8 +36,8 @@ Hooks.once('init', function() {
   });
 
   game.settings.register("mmm", "nonMidiAutomation", {
-    name: "Enable non-midiqol automatins",
-    hint: "Enables some automation in the event that you are not using midiqol or you are removing hp manually. The only automations working are the 'On Unconscious' and 'On Damage'. Since the system does not know what type of damage triggered the injury the player will be prompted with the choice.",
+    name: "Habilitar la automatización sin non-midiqol",
+    hint: "Habilita cierta automatización para los casos en que no se esté usando midiqol o esté eliminando vida manualmente. Las únicas automatizaciones que funcionan son 'Por inconsciencia' y 'Por daño'. Ésto es debido a que el sistema no sabe qué tipo de daño desencadenó la lesión, se le pedirá al jugador que elija.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -45,8 +45,8 @@ Hooks.once('init', function() {
   });
 
   game.settings.register("mmm", "triggerNpc", {
-    name: "Trigger Injuries on NPCs",
-    hint: "Enables the automations on non player owned actors.",
+    name: "Activar lesiones en PNJs",
+    hint: "Habilita la automatización también para los PNJs.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -54,8 +54,8 @@ Hooks.once('init', function() {
   });
 
   game.settings.register("mmm", "selfdestruct", {
-    name: "Destroy items",
-    hint: "When active effects expire, destroy the injury item. (requires DAE/MidiQoL)",
+    name: "Destruir objetos",
+    hint: "Cuando los efectos activos acaban, destruye el objeto que ha sido dañado. (requiere DAE/MidiQoL)",
     scope: "world",
     config: true,
     type: Boolean,
@@ -72,9 +72,9 @@ Hooks.on("chatMessage", (ChatLog, content) => {
     if (content.toLowerCase().startsWith("/mmmm")) {
       const data = content.replace("/mmmm", "").trim();
       if(data){
-        MaxwelMaliciousMaladies.rollTable(data);
+        ManualMorton.rollTable(data);
       }else{
-        MaxwelMaliciousMaladies.displayDialog();
+        ManualMorton.displayDialog();
       }
 
       return false;
@@ -83,21 +83,21 @@ Hooks.on("chatMessage", (ChatLog, content) => {
 
 Hooks.on("renderChatMessage", (message, html)=>{
     if(!game.user.isGM || !message?.flavor?.includes("[MMMM]")) return;
-    const subTables = ["Scar Chart", "Small Appendage Table", "Large Limb Table"];
+    const subTables = ["Cicatrices", "Pequeños Apéndices", "Grandes Extremidades"];
     for(let t of subTables){
       if(message?.flavor?.includes(t)) return;
     }
-    const button = $(`<a title="Apply Lingering Injury" style="margin-right: 0.3rem;color: red;" class="button"><i class="fas fa-viruses"></i></a>`)
+    const button = $(`<a title="Aplica la Lesión Permanente" style="margin-right: 0.3rem;color: red;" class="button"><i class="fas fa-viruses"></i></a>`)
     html.find(".result-text").prepend(button)
     button.on("click", async (e)=>{
         e.preventDefault();
         let actor = game.scenes.get(message?.speaker?.scene)?.tokens?.get(message?.speaker?.token)?.actor;
         actor = actor ?? (game.actors.get(message?.speaker?.actor) ?? _token?.actor);
-        if(!actor) return ui.notifications.error("No token selected or actor found!");
+        if(!actor) return ui.notifications.error("¡O no has seleccionado la ficha o no se encuentra el personaje!");
         const content = $(message.content)
         const imgsrc = content.find("img").attr("src");
         const description = content.find(".result-text").html();
-        const duration = MaxwelMaliciousMaladies.inferDuration(content.find(".result-text").text());
+        const duration = ManualMorton.inferDuration(content.find(".result-text").text());
         const title = "Lingering Injury - " + content.find("strong").first().text();
         const itemData = {
             name: title,
@@ -136,7 +136,7 @@ Hooks.on("renderChatMessage", (message, html)=>{
             ],
         }
         actor.createEmbeddedDocuments("Item", [itemData]);
-        ui.notifications.notify(`Added ${title} to ${actor.name}`)
+        ui.notifications.notify(`Añadida ${title} a ${actor.name}`)
     });
 });
 
@@ -144,5 +144,5 @@ let MaxwelMaliciousMaladiesSocket;
 
 Hooks.once("socketlib.ready", () => {
   MaxwelMaliciousMaladiesSocket = socketlib.registerModule("mmm");
-  MaxwelMaliciousMaladiesSocket.register("requestRoll", MaxwelMaliciousMaladies.requestRoll);
+  MaxwelMaliciousMaladiesSocket.register("requestRoll", ManualMorton.requestRoll);
 });

@@ -1,4 +1,4 @@
-class MaxwelMaliciousMaladies {
+class ManualMorton {
   static async rollTable(name, actor){
     name = name.trim();
     if(!name.endsWith("[MMMM]")) name = name + " - [MMMM]";
@@ -15,12 +15,12 @@ class MaxwelMaliciousMaladies {
   }
 
   static async rollSubtable(result, chatMessage){
-    const subTables = ["Scar Chart", "Small Appendage Table", "Large Limb Table"];
+    const subTables = ["Cicatrices", "Pequeños Apéndices", "Grandes Extremidades"];
     for(let tab of subTables){
       if(result.toLowerCase().includes(tab.toLowerCase())){
-        const result = await MaxwelMaliciousMaladies.rollTable(tab);
+        const result = await ManualMorton.rollTable(tab);
         const text = result.results[0].text
-        MaxwelMaliciousMaladies.insertSubtableResult(text,chatMessage)
+        ManualMorton.insertSubtableResult(text,chatMessage)
         return;
       }
     }
@@ -55,20 +55,20 @@ class MaxwelMaliciousMaladies {
     tableNames.forEach(name => select+=`<option value="${name}">${name}</option>`);
     select += `</select></div><p>`;
     new Dialog({
-      title: "Maxwell's Manual of Malicious Maladies",
-      content: `<p>Chose a Table:</p>${select}`,
+      title: "Manual de Morton sobre Malformaciones Maliciosas",
+      content: `<p>Elige una Tabla:</p>${select}`,
       buttons: {
        one: {
         icon: '<i class="fas fa-dice-d20"></i>',
-        label: "Roll Injury",
+        label: "Tirar",
         callback: (html) => {
           const tableName = html.find("#mmm-select-table")[0].value;
-          MaxwelMaliciousMaladies.rollTable(tableName);
+          ManualMorton.rollTable(tableName);
         }
        },
        two: {
         icon: '<i class="fas fa-times"></i>',
-        label: "Cancel",
+        label: "Cancelar",
         callback: () => {}
        }
       },
@@ -81,7 +81,7 @@ class MaxwelMaliciousMaladies {
     const choseTable = !tablename
     const damage = choseTable ? "" : tablename.charAt(0).toUpperCase() + tablename.slice(1);
     let select = "";
-    let rollPrompt = choseTable ? `Select the correct <strong>Damage Type</strong> before rolling on the table.` : `Roll on the <strong>${damage} Damage</strong> table?`;
+    let rollPrompt = choseTable ? `Elige el <strong>Tipo de Daño</strong> correcto antes de tirar en la tabla.` : `¿Tirarás en la tabla de <strong>Daño ${damage}</strong>?`;
     if(choseTable){
       select = `<div class="form-group"><select style="width: 100%;" id="mmm-select-table">`;
       const pack = this.getPack();
@@ -90,24 +90,24 @@ class MaxwelMaliciousMaladies {
       select += `</select></div><p>`;
     }
     new Dialog({
-      title: "Maxwell's Manual of Malicious Maladies",
-      content: `<p>${actor.name} sustained a lingering injury.<br>Reason: <strong>${reason}</strong>.<br>${rollPrompt}</p>${select}`,
+      title: "Manual de Morton sobre Malformaciones Maliciosas",
+      content: `<p>${actor.name} ha sufrido una lesión permanente.<br>Causa: <strong>${reason}</strong>.<br>${rollPrompt}</p>${select}`,
       buttons: {
        one: {
         icon: '<i class="fas fa-dice-d20"></i>',
-        label: "Roll Injury",
+        label: "Tirar",
         callback: (html) => {
           const token = actor.getActiveTokens()
           token[0]?.control()
           if(choseTable){
             tablename = html.find("#mmm-select-table")[0].value;
           }
-          MaxwelMaliciousMaladies.rollTable(tablename,actor);
+          ManualMorton.rollTable(tablename,actor);
         }
        },
        two: {
         icon: '<i class="fas fa-times"></i>',
-        label: "Cancel",
+        label: "Cancelar",
         callback: () => {}
        }
       },
@@ -139,9 +139,9 @@ class MaxwelMaliciousMaladies {
   static requestRoll(reason, tablename, actorId){
     const actor = game.actors.get(actorId);
     if(game.user.isGM){
-      if(!MaxwelMaliciousMaladies.isOwnerConnected(actor)) MaxwelMaliciousMaladies.confirmInjury(reason, tablename, actor);
+      if(!ManualMorton.isOwnerConnected(actor)) ManualMorton.confirmInjury(reason, tablename, actor);
       return;
     }
-    if(actor.isOwner && MaxwelMaliciousMaladies.isOwnerConnected(actor)) MaxwelMaliciousMaladies.confirmInjury(reason, tablename, actor);
+    if(actor.isOwner && ManualMorton.isOwnerConnected(actor)) ManualMorton.confirmInjury(reason, tablename, actor);
   }
 }
