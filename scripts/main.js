@@ -39,7 +39,7 @@ class ManualMorton {
 
 
   static getPack(){
-    return game.packs.get("mmm.mmmm");
+    return game.packs.get("mmorton.mmmm");
   }
 
   static async getTableFromPack(name){
@@ -49,7 +49,7 @@ class ManualMorton {
   }
 
   static async displayDialog(){
-    let select = `<div class="form-group"><select style="width: 100%;" id="mmm-select-table">`;
+    let select = `<div class="form-group"><select style="width: 100%;" id="mmorton-select-table">`;
     const pack = this.getPack();
     const tableNames = Array.from(pack.index).map(e => e.name.replace(" - [MMMM]", ""));
     tableNames.forEach(name => select+=`<option value="${name}">${name}</option>`);
@@ -62,7 +62,7 @@ class ManualMorton {
         icon: '<i class="fas fa-dice-d20"></i>',
         label: "Tirar",
         callback: (html) => {
-          const tableName = html.find("#mmm-select-table")[0].value;
+          const tableName = html.find("#mmorton-select-table")[0].value;
           ManualMorton.rollTable(tableName);
         }
        },
@@ -83,7 +83,7 @@ class ManualMorton {
     let select = "";
     let rollPrompt = choseTable ? `Elige el <strong>Tipo de Daño</strong> correcto antes de tirar en la tabla.` : `¿Tirarás en la tabla de <strong>Daño ${damage}</strong>?`;
     if(choseTable){
-      select = `<div class="form-group"><select style="width: 100%;" id="mmm-select-table">`;
+      select = `<div class="form-group"><select style="width: 100%;" id="mmorton-select-table">`;
       const pack = this.getPack();
       const tableNames = Array.from(pack.index).map(e => e.name.replace(" - [MMMM]", ""));
       tableNames.forEach(name => select+=`<option value="${name}">${name}</option>`);
@@ -100,7 +100,7 @@ class ManualMorton {
           const token = actor.getActiveTokens()
           token[0]?.control()
           if(choseTable){
-            tablename = html.find("#mmm-select-table")[0].value;
+            tablename = html.find("#mmorton-select-table")[0].value;
           }
           ManualMorton.rollTable(tablename,actor);
         }

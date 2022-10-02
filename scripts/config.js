@@ -1,5 +1,5 @@
 Hooks.once('init', function() {
-  game.settings.register("mmm", "applyOnCritSave", {
+  game.settings.register("mmorton", "applyOnCritSave", {
     name: "Por pífia en Tirada de Salvación",
     hint: "Solicitar una tirada de lesión permanente por pífia en tirada de salvación.",
     scope: "world",
@@ -8,7 +8,7 @@ Hooks.once('init', function() {
     default: true,
   });
 
-  game.settings.register("mmm", "applyOnCrit", {
+  game.settings.register("mmorton", "applyOnCrit", {
     name: "Por crítico",
     hint: "Solicitar una tirada de lesión permanente por daño crítico.",
     scope: "world",
@@ -17,7 +17,7 @@ Hooks.once('init', function() {
     default: true,
   });
 
-  game.settings.register("mmm", "applyOnDamage", {
+  game.settings.register("mmorton", "applyOnDamage", {
     name: "On Damage",
     hint: "Solicitar una tirada de lesión permanente si recibe más daño que la mitad de su vida máxima.",
     scope: "world",
@@ -26,7 +26,7 @@ Hooks.once('init', function() {
     default: true,
   });
 
-  game.settings.register("mmm", "applyOnDown", {
+  game.settings.register("mmorton", "applyOnDown", {
     name: "Por inconsciencia",
     hint: "Solicitar una tirada de lesión permanente si el daño del personaje cae a 0 PG.",
     scope: "world",
@@ -35,7 +35,7 @@ Hooks.once('init', function() {
     default: true,
   });
 
-  game.settings.register("mmm", "nonMidiAutomation", {
+  game.settings.register("mmorton", "nonMidiAutomation", {
     name: "Habilitar la automatización sin non-midiqol",
     hint: "Habilita cierta automatización para los casos en que no se esté usando midiqol o esté eliminando vida manualmente. Las únicas automatizaciones que funcionan son 'Por inconsciencia' y 'Por daño'. Ésto es debido a que el sistema no sabe qué tipo de daño desencadenó la lesión, se le pedirá al jugador que elija.",
     scope: "world",
@@ -44,7 +44,7 @@ Hooks.once('init', function() {
     default: true,
   });
 
-  game.settings.register("mmm", "triggerNpc", {
+  game.settings.register("mmorton", "triggerNpc", {
     name: "Activar lesiones en PNJs",
     hint: "Habilita la automatización también para los PNJs.",
     scope: "world",
@@ -53,7 +53,7 @@ Hooks.once('init', function() {
     default: false,
   });
 
-  game.settings.register("mmm", "selfdestruct", {
+  game.settings.register("mmorton", "selfdestruct", {
     name: "Destruir objetos",
     hint: "Cuando los efectos activos acaban, destruye el objeto que ha sido dañado. (requiere DAE/MidiQoL)",
     scope: "world",
@@ -105,7 +105,7 @@ Hooks.on("renderChatMessage", (message, html)=>{
             type: "feat",
             "system.description.value": description,
             flags: {
-              mmm: 
+              mmorton: 
               {
                 lingeringInjury: true
               }
@@ -118,7 +118,7 @@ Hooks.on("renderChatMessage", (message, html)=>{
                 changes: [
                   {
                     "key": "flags.dae.deleteOrigin",
-                    "value":  game.settings.get("mmm", "selfdestruct") ? 1 : "",
+                    "value":  game.settings.get("mmorton", "selfdestruct") ? 1 : "",
                     "mode": 2,
                     "priority": 0
                   }
@@ -127,7 +127,7 @@ Hooks.on("renderChatMessage", (message, html)=>{
                   seconds: title.includes("(") ? null : duration || 9999999999,
                 },
                 flags: {
-                  mmm: 
+                  mmorton: 
                   {
                     lingeringInjury: true
                   },
@@ -143,6 +143,6 @@ Hooks.on("renderChatMessage", (message, html)=>{
 let MaxwelMaliciousMaladiesSocket;
 
 Hooks.once("socketlib.ready", () => {
-  MaxwelMaliciousMaladiesSocket = socketlib.registerModule("mmm");
+  MaxwelMaliciousMaladiesSocket = socketlib.registerModule("mmorton");
   MaxwelMaliciousMaladiesSocket.register("requestRoll", ManualMorton.requestRoll);
 });

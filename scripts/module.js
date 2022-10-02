@@ -6,14 +6,14 @@ Hooks.on("midi-qol.RollComplete", async (workflow) => {
     timeout++;
   }
   if(!workflow.damageList) return;
-  const applyOnCritSave = game.settings.get("mmm", "applyOnCritSave");
-  const applyOnCrit = game.settings.get("mmm", "applyOnCrit");
-  const applyOnDamage = game.settings.get("mmm", "applyOnDamage");
-  const triggerNpc = game.settings.get("mmm", "triggerNpc");
+  const applyOnCritSave = game.settings.get("mmorton", "applyOnCritSave");
+  const applyOnCrit = game.settings.get("mmorton", "applyOnCrit");
+  const applyOnDamage = game.settings.get("mmorton", "applyOnDamage");
+  const triggerNpc = game.settings.get("mmorton", "triggerNpc");
   for (let target of workflow.damageList) {
     const token = await fromUuid(target.tokenUuid)
     const actor = token.actor;
-    const applyOnDown = game.settings.get("mmm", "applyOnDown") && actor.hasPlayerOwner;
+    const applyOnDown = game.settings.get("mmorton", "applyOnDown") && actor.hasPlayerOwner;
     if(!actor.hasPlayerOwner && !triggerNpc) continue;
     const hpMax = actor.system.attributes.hp.max;
     const damageTaken = target.hpDamage;
@@ -54,11 +54,11 @@ Hooks.on("preUpdateActor", (actor,updates, diff)=>{diff.prevHp = actor.system.at
 
 Hooks.on("updateActor", (actor, updates, diff)=>{
   if(!game.user.isGM || updates.damageItem || updates?.system?.attributes?.hp?.value === undefined) return;
-  const triggerNpc = game.settings.get("mmm", "triggerNpc");
+  const triggerNpc = game.settings.get("mmorton", "triggerNpc");
   if(!actor.hasPlayerOwner && !triggerNpc) return;
-  if(!game.settings.get("mmm", "nonMidiAutomation")) return;
-  const applyOnDamage = game.settings.get("mmm", "applyOnDamage");
-  const applyOnDown = game.settings.get("mmm", "applyOnDown") && actor.hasPlayerOwner;
+  if(!game.settings.get("mmorton", "nonMidiAutomation")) return;
+  const applyOnDamage = game.settings.get("mmorton", "applyOnDamage");
+  const applyOnDown = game.settings.get("mmorton", "applyOnDown") && actor.hasPlayerOwner;
   const hpMax = actor.system.attributes.hp.max;
   const damageTaken = actor.system.attributes.hp.value - diff.prevHp;
   if(damageTaken >= 0) return;
