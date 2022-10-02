@@ -43,6 +43,7 @@
             "label": "Manual de Morton - Accesorios",
             "path": "packs/items.db",
             "type": "Item",
+            "system": "dnd5e",
             "private": false
         },
         {
